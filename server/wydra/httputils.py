@@ -13,6 +13,7 @@ def extract_path(path: str):
         resource_id (str)
     """
     path = path.split('/')
-    resource_name = path[1]
+    # WSGI spec says PATH_INFO can be an empty string so:
+    resource_name = path[1] if len(path) > 0 else '/'
     resource_id = path[2] if len(path) == 3 else ''
     return resource_name, resource_id
