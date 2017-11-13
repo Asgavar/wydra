@@ -1,14 +1,19 @@
-from pony.orm import *
+from pony.orm import (
+    Database,
+    Required,
+    Set
+)
 
 db = Database()
 
+
 class Event(db.Entity):
-    what     = Required(str)
-    where    = Required(str)
-    cost     = Required(int)
-    category = Required('Category')
+    categories = Set('Category')
+    cost = Required(int)
+    what = Required(str)
+    where = Required(str)
 
 
 class Category(db.Entity):
-    name   = Required(str)
+    name = Required(str)
     events = Set(Event)

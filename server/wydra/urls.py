@@ -7,7 +7,11 @@ which calls the appropriate controller function.
 Both resource_id and request_body can be empty strings.
 """
 
-from controllers import *
+from controllers import (
+    get_event,
+    post_event,
+    delete_event
+)
 
 mapping = {
     'GET': {

@@ -1,5 +1,3 @@
-from typing import Tuple
-
 def extract_path(path: str):
     """
     Extracts resource's name and id from URL.
