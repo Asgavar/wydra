@@ -9,10 +9,13 @@ def wydra(environ, start_response):
     http_method = environ['REQUEST_METHOD']
     request_body = environ['wsgi.input']
     resource_name, resource_id = httputils.extract_path(environ['PATH_INFO'])
-    urls.mapping[http_method][resource_name](resource_id, request_body)
-    start_response('200 OK', [('Content-Type', 'text/plain')])
-    ret = b'W BUDOWIE'
-    return ret
+    try:
+        ret = urls.mapping[http_method][resource_name](resource_id, request_body)
+        start_response('200 OK', [('Content-Type', 'text/plain')])
+    except KeyError:
+        start_response('404 NOT FOUND', [('Content-Type', 'text/plain')])
+        ret = b'Page not found'
+    return [ret]
 
 
 if __name__ == '__main__':

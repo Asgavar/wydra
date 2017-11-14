@@ -6,12 +6,14 @@ then sent to client.
 """
 
 
-def get_all_events(id, request_body):
-    pass
+def get_all_events():
+    return b'placeholder for all events'
 
 
 def get_event(id, request_body):
-    pass
+    if not id:
+        return get_all_events()
+    return bytes(f'event no. {id}', 'utf-8')
 
 
 def post_event(id, request_body):
