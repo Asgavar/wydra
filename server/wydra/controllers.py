@@ -11,6 +11,10 @@ def get_all_events():
 
 
 def get_event(id, request_body):
+    """
+    Receives desired event's id (or None) and returns appropriately filled
+    HTML template.
+    """
     if not id:
         return get_all_events()
     return bytes(f'event no. {id}', 'utf-8')

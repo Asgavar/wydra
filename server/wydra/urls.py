@@ -15,6 +15,7 @@ from controllers import (
 
 mapping = {
     'GET': {
+        '/': get_event,
         'events': get_event
     },
     'POST': {
