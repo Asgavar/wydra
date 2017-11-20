@@ -2,6 +2,7 @@ from wsgiref.simple_server import make_server
 
 import httputils
 import urls
+import config
 
 
 def wydra(environ, start_response):
@@ -11,9 +12,15 @@ def wydra(environ, start_response):
     http_method = environ['REQUEST_METHOD']
     request_body = environ['wsgi.input']
     resource_name, resource_id = httputils.extract_path(environ['PATH_INFO'])
-    if not 'HTTP_AUTHORIZATION' in environ:
+    if 'HTTP_AUTHORIZATION' not in environ:
         start_response('401 UNAUTHORIZED', [('WWW-Authenticate', 'Basic')])
         return [b'authorization needed']
+    passphrase = httputils.extract_passphrase(environ['HTTP_AUTHORIZATION'])
+    print(passphrase)
+    print(environ['HTTP_AUTHORIZATION'])
+    if passphrase != config.magic_key:
+        start_response('400 BAD REQUEST', [('Content-Type', 'text/plain')])
+        return [b'bad password']
     try:  # good resource name
         ret = urls.mapping[http_method][resource_name](resource_id, request_body)
         start_response('200 OK', [])

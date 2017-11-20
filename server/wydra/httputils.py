@@ -1,3 +1,6 @@
+import base64
+
+
 def extract_path(path):
     """
     Extracts resource's name and id from URL.
@@ -15,3 +18,8 @@ def extract_path(path):
     resource_name = path[1] if len(path) > 1 and path[1] != '' else '/'
     resource_id = path[2] if len(path) == 3 else ''
     return resource_name, resource_id
+
+
+def extract_passphrase(http_header):
+    b64_version = http_header.split('Basic ')[1]
+    return base64.b64decode(b64_version)[1:]  # without leading ':'
