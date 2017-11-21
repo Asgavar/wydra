@@ -1,3 +1,4 @@
+import datetime
 import pony
 from pony.orm import (
     Database,
@@ -13,8 +14,8 @@ class Event(db.Entity):
     categories = Set('Category')
     cost = Required(float)
     what = Required(str)
-    when = Required(str)  # FIXME
-    where = Optional(str)
+    when = Required(datetime.date)
+    where = Required(str)
     pic_rel = Optional('Image')
 
 
@@ -32,4 +33,4 @@ db.bind(provider='sqlite', filename='wydra.sqlite', create_db=True)
 db.generate_mapping(create_tables=True)
 # FIXME
 with pony.orm.db_session:
-    e = Event(cost=14.10, what='something', when='yesterday')
+    e = Event(cost=14.10, where='everywhere', what='something', when='21/Sep/2017')

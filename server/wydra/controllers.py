@@ -1,5 +1,5 @@
+import pystache
 from pony import orm
-
 from models import *
 
 """
@@ -12,9 +12,10 @@ then sent to client.
 
 @orm.db_session
 def get_all_events():
-    e = orm.select(e for e in Event).first()
-    event_one = e.what + str(e.cost) + e.when
-    return event_one.encode()
+    event_list = orm.select(e for e in Event)
+    with open('template.mustache') as t:
+        ret = pystache.render(t.read(), event_list=event_list)
+    return ret.encode()
 
 
 def get_event(id, request_body):
