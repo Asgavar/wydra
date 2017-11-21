@@ -1,3 +1,7 @@
+from pony import orm
+
+from models import *
+
 """
 Controllers here are basically black boxes which take HTTP request body
 and (hypotheticaly) resource_id* as input and provide an output which is
@@ -6,8 +10,11 @@ then sent to client.
 """
 
 
+@orm.db_session
 def get_all_events():
-    return b'placeholder for all events'
+    e = orm.select(e for e in Event).first()
+    event_one = e.what + str(e.cost) + e.when
+    return event_one.encode()
 
 
 def get_event(id, request_body):

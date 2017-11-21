@@ -1,3 +1,4 @@
+import pony
 from pony.orm import (
     Database,
     Required,
@@ -12,6 +13,7 @@ class Event(db.Entity):
     categories = Set('Category')
     cost = Required(float)
     what = Required(str)
+    when = Required(str)  # FIXME
     where = Optional(str)
     pic_rel = Optional('Image')
 
@@ -28,3 +30,6 @@ class Image(db.Entity):
 
 db.bind(provider='sqlite', filename='wydra.sqlite', create_db=True)
 db.generate_mapping(create_tables=True)
+# FIXME
+with pony.orm.db_session:
+    e = Event(cost=14.10, what='something', when='yesterday')

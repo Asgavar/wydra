@@ -16,8 +16,6 @@ def wydra(environ, start_response):
         start_response('401 UNAUTHORIZED', [('WWW-Authenticate', 'Basic')])
         return [b'authorization needed']
     passphrase = httputils.extract_passphrase(environ['HTTP_AUTHORIZATION'])
-    print(passphrase)
-    print(environ['HTTP_AUTHORIZATION'])
     if passphrase != config.magic_key:
         start_response('400 BAD REQUEST', [('Content-Type', 'text/plain')])
         return [b'bad password']
