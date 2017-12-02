@@ -17,5 +17,8 @@ if __name__ == '__main__':
         required=True
     )
     args = parser.parse_args()
-    r = requests.get(config.host)
+    r = requests.post(config.post_endpoint, data={
+        'what': args.what, 'cost': args.cost, 'when': args.when,
+        'where': args.where}, auth=('', config.passphrase)
+    )
     print(r.text)

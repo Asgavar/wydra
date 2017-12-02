@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.6
+
 from wsgiref.simple_server import make_server
 
 import httputils
@@ -11,6 +13,9 @@ def wydra(environ, start_response):
     """
     http_method = environ['REQUEST_METHOD']
     request_body = environ['wsgi.input']
+    content_length = environ['CONTENT_LENGTH']
+    content_length = int(content_length) if content_length != '' else 0
+    request_body = request_body.peek(content_length) if content_length != 0 else ''
     resource_name, resource_id = httputils.extract_path(environ['PATH_INFO'])
     if 'HTTP_AUTHORIZATION' not in environ:
         start_response('401 UNAUTHORIZED', [('WWW-Authenticate', 'Basic')])
