@@ -16,7 +16,7 @@ then sent to client.
 @orm.db_session
 def get_all_events():
     event_list = orm.select(e for e in Event)
-    with open('template.mustache') as t:
+    with open('/home/asgavar/wydra/server/wydra/template.mustache') as t:
         ret = pystache.render(t.read(), event_list=event_list)
     return ret.encode()
 
